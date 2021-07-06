@@ -6,6 +6,7 @@ import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:techvertix_chat_app/SessionManager.dart';
 import 'package:techvertix_chat_app/include/alerts.dart';
 import 'package:chatbar/chatbar.dart';
@@ -51,13 +52,75 @@ class _GroupScreenState extends State<GroupScreen> {
     getData();
     // getData
     super.initState();
+     connectToServer();
       Timer(Duration(seconds: 1), () {
       setState(() {
         show = false;
       });
 });
   }
+   void connectToServer() {
+    try {
+     
+      // Configure socket transports must be sepecified
+      socket = io('http://techvertixchatapp.estudentarea.com:2000', <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+      });
+     
+      // Connect to websocket
+      socket.connect();
+     
+      // Handle socket events
+      socket.on('connect', (_) => print('connect: ${socket.id}'));
+      // socket.on('location', handleLocationListen);
+      // socket.on('typing', handleTyping);
+      socket.on('chat message', handleMessage);
+      // socket.on('disconnect', (_) => print('disconnect'));
+      // socket.on('fromServer', (_) => print(_));
 
+    } catch (e) {
+      print(e.toString());
+    }
+
+   
+  }
+  sendMessage(String message, String type) {
+    // print(message);
+      socket.emit("message",
+        {
+          {
+            "id":"",
+            "group_id":widget.group_id,
+            "sender_id":widget.senderid,
+            "profilename":"Dani Christo",
+            "message_type":type,
+            "message":message,
+            "status":"1",
+            "send_date":"2021-05-28 11:44:51"
+          }
+        },
+      );
+  }
+  void handleMessage(data) {
+    print(data);
+     final convertdata = jsonDecode(data);
+     if(convertdata['sender_id'].toString() == widget.senderid.toString() || convertdata['reciever_id'].toString() == widget.senderid.toString()){
+        if (mounted) {
+          setState(() {
+            list.insert(0, convertdata);
+              isFirstLoad = false;
+          });
+          if(convertdata['message_type'].toString() == 'img'){
+              Timer(Duration(seconds: 1), () {
+                setState(() {
+                  isFirstLoad = true;
+                });
+              });
+            }
+        }
+     }
+  }
   TextEditingController msg_controller = new TextEditingController();
   String getmessage = null;
   alerts al = new alerts();
@@ -104,6 +167,7 @@ class _GroupScreenState extends State<GroupScreen> {
               if(getmessage==''||getmessage==null||getmessage=="null"){
                 al.ErrorMessage("empty");
               }else{
+                sendMessage(getmessage,'text');
                 final res = await ca.sendGroupTextMsg(widget.group_id,widget.senderid,'$getmessage');
                 if(res == "Inserted"){
                   Future d = ca.sendNotification(widget.group_id,"group");

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-      // SharedPreferences.setMockInitialValues({});
+    SharedPreferences.setMockInitialValues({});
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -40,13 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
   String token1;
   alerts al = new alerts();
+  Timer _timer;
   @override
   void initState() {
     SessionManager pref = new SessionManager();
     Future<String> authToken = pref.getAuthToken();
     authToken.then((data) {
       check_session = data.toString();
-      al.SuccessMessage("Wellcome Application"+data.toString());
+      // al.SuccessMessage("Wellcome Application"+data.toString());
     },onError: (e) {
       al.ErrorMessage(e);
     });
@@ -89,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
       assert(token != null);
       token1 = token;
       print("token id is "+token1);
-        pref.setDeviceId(token1);
+        // pref.setDeviceId(token1);
     });
   }
 
@@ -161,7 +164,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Techvertix Chat App"),
-        // backgroundColor: Colors.red, // status bar color
         brightness: Brightness.values[0],
         centerTitle: true,
       ),
@@ -172,6 +174,8 @@ class _MyHomePageState extends State<MyHomePage> {
             RaisedButton(
                 child: Text("Start"),
                 onPressed: (){
+                   SessionManager _sessionManager = new SessionManager();
+                  _sessionManager.setDeviceId(token1);
                   //Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                   if(check_session == null || check_session == "" || check_session == "null"){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -187,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),// This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

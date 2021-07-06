@@ -18,7 +18,6 @@ class CustomApi {
     var u = baseUri+"chat_app/index.php";
     var response = await http.post(
         u, body: {'user': user, 'password': pass, 'device_id':device_id});
-        print(u);
      return response.body;
   }
   sendGroupTextMsg(String group_id,String sender_id,String msg) async {

@@ -55,10 +55,10 @@ class _RecentChatsState extends State<RecentChats> with SingleTickerProviderStat
 
   Future<List<dynamic>> getData() async{
     var res = await http.post(
-        "http://estudentarea.com/chat_app/recent_chats.php",
+        "https://estudentarea.com/chat_app/recent_chats.php",
       body: {'sess_id': CurrentUserId,'fk_organization_id':CurrentUserCompanyId}
     );
-    // print(res.body);
+    print(res.body);
     return jsonDecode(res.body);
   }
 

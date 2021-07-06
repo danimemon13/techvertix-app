@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_launcher_icons/utils.dart';
 import 'sign_up_page.dart';
 import 'SessionManager.dart';
 import 'screens/dashboard.dart';
@@ -76,7 +75,7 @@ class _LoginFieldsState extends State<LoginFields> {
               gradient: new LinearGradient(
                   colors: [
                     const Color(0xFFFC6601),
-                    const Color(0xFF012055),
+                    const Color(0xFF012075),
                   ],
                   begin: const FractionalOffset(1.0, 0.0),
                   end: const FractionalOffset(1.0, 0.0),
@@ -170,29 +169,24 @@ class _LoginFieldsState extends State<LoginFields> {
   }
 
   Future<void> perfomlogin() async {
-    
     if (getusername == '') {
       al.ErrorMessage("Username Required");
     } else if (getpassword == '') {
       al.ErrorMessage("Password Required");
     } else {
-  
       Future<String> getdeviceid = _sessionManager.getDeviceId();
       getdeviceid.then(
               (data) async {
           getdevicetoken = data.toString();
-          // print("username"+getusername);
-          // print("password"+getpassword);
-          // print(getdevicetoken);
-          final getStatus = await ca.doLogin('$getusername','$getpassword','$getdevicetoken');
          
+          final getStatus = await ca.doLogin('$getusername','$getpassword','$getdevicetoken');
+          print("device token is " + data.toString());
           final convertdata = jsonDecode(getStatus);
           String id = convertdata['id'];
           String msg = convertdata['status'];
           String c_id = convertdata['company_id'];
-         
           if(msg == "success"){
-             al.SuccessMessage("Device id is " + data.toString());
+            //  al.SuccessMessage("Device id is " + data.toString());
             _sessionManager.setAuthToken(id);
             _sessionManager.setCompanyId(c_id);
               Navigator.push(

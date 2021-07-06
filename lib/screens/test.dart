@@ -11,6 +11,7 @@ import '../SessionManager.dart';
 import '../include/alerts.dart';
 import '../ApiClientWeb/ApiClass.dart';
 import '../screens/image_screen.dart';
+import '../include/socket.dart';
 
 // import 'package:video_player/video_player.dart';
 
