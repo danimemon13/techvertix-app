@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "296457341174",
+    "project_id": "techvertix-chat-app-5cf8a",
+    "storage_bucket": "techvertix-chat-app-5cf8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296457341174:android:c9bd80f34af48af838c4d7",
+        "android_client_info": {
+          "package_name": "com.techvertix.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296457341174-429f614dk3r2plmkhe3egg9sqkendg18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4jbHXYCyzaf_Q6eq-18YE8NsBIYevaf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296457341174-429f614dk3r2plmkhe3egg9sqkendg18.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "296457341174-ftrqtu4t5eq8ok2o9fde5o7ca55onnju.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.techvertix.chatapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
